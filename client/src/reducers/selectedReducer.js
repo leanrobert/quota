@@ -13,10 +13,10 @@ const selectedSlice = createSlice({
 
 export const { setSelected } = selectedSlice.actions
 
-export const setSelectedClient = (cus, consumo) => {
+export const setSelectedClient = (cus) => {
   return async dispatch => {
     const client = await getClient(cus)
-    dispatch(setSelected({ client, consumo, nombre: cus }))
+    dispatch(setSelected({ client, nombre: cus }))
   }
 }
 

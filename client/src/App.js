@@ -19,7 +19,7 @@ const App = () => {
     <Container>
       <Botonera />
       <Routes>
-        <Route path='/cliente/:cliente' element={<ClientDetails />} />
+        <Route path='/clientes' element={<ClientDetails />} />
         <Route path="/" element={<div><MainBarChart  /><ClientChart /></div>} />
       </Routes>
     </Container>

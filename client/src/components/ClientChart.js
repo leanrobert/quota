@@ -35,14 +35,13 @@ const ClientChart = () => {
             <p><u>Ip:</u> {selected.client.data.connection_data.connection.ip}</p>
             <p><u>Plan:</u> {selected.client.data.connection_data.connection.plan}</p>
             <p><u>Estado:</u><b> {selected.client.data.account_data.a_status}</b></p>
-            <p><u>Consumo (Ultima hora):</u> {selected.consumo}Mbps</p>
             <Button
               target='_blank'
               href={`https://gestion.westnet.com.ar/index.php?r=sale%2Fcustomer%2Fview&id=${selected.client.data.customer_data.idcustomer}`}
             >
               Gestion
             </Button>
-            <Link to={`/cliente/${selected.client.data.customer_data.code}`} style={{ marginLeft: '10px' }}>
+            <Link to={`/clientes`} style={{ marginLeft: '10px' }}>
               <Button variant='success'>Detalles del cliente</Button>
             </Link>
 

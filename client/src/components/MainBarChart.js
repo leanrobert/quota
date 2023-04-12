@@ -1,8 +1,24 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedClient } from '../reducers/selectedReducer';
+import { selectNode } from '../reducers/clientsReducer';
+
+const olts = [
+  { olt: "Decimo", id: 22969 },
+  { olt: "Aromos", id: 22975 },
+  { olt: "Hudson", id: 12829 },
+  { olt: "Ugarteche", id: 12830 },
+  { olt: "Walmart", id: 22970 },
+  { olt: "Grutas", id: 22974 },
+  { olt: "Flavimari", id: 17437 },
+  { olt: "Castrol", id: 22973 },
+  { olt: "Beltran", id: 22972 },
+  { olt: "Cano", id: 22971 },
+]
 
 const MainBarChart = () => {
   const dispatch = useDispatch()
@@ -22,9 +38,8 @@ const MainBarChart = () => {
         events: {
           dataPointSelection: (event, chartContext, config) => {
             const arrayID = config.selectedDataPoints[0][0]
-            const consumo = config.w.config.series[0].data[arrayID]
             const cliente = chartContext.legend.legendHelpers.w.config.xaxis.categories[arrayID]
-            dispatch(setSelectedClient(cliente, consumo))
+            dispatch(setSelectedClient(cliente))
           }
         }
       },
@@ -40,8 +55,23 @@ const MainBarChart = () => {
     },
   };
 
+  const handleClick = (id) => {
+    dispatch(selectNode(id))
+  }
+
   return (
     <Container fluid>
+      <Navbar>
+        <Nav className='justify-content-end flex-grow-1 pe-3' defaultActiveKey={olts[0].id}>
+          {olts.map(olt => (
+            <Nav.Item key={olt.id}>
+              <Nav.Link eventKey={olt.id} onClick={() => handleClick(olt.id)}>
+                {olt.olt}
+              </Nav.Link>
+            </Nav.Item>
+          ))}
+        </Nav>
+      </Navbar>
       <Chart
         type='bar'
         height={500}
