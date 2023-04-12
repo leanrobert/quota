@@ -15,7 +15,7 @@ export const { setClients } = clientsSlice.actions
 
 export const initializeClients = () => {
   return async dispatch => {
-    const clients = await getOLT(22969)
+    const clients = await getOLT(1)
     dispatch(setClients(clients))
   }
 }

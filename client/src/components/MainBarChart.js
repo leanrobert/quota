@@ -8,6 +8,7 @@ import { setSelectedClient } from '../reducers/selectedReducer';
 import { selectNode } from '../reducers/clientsReducer';
 
 const olts = [
+  { olt: "Todas", id: 1 },
   { olt: "Decimo", id: 22969 },
   { olt: "Aromos", id: 22975 },
   { olt: "Hudson", id: 12829 },
@@ -20,6 +21,8 @@ const olts = [
   { olt: "Cano", id: 22971 },
 ]
 
+const quotaLimit = 200
+
 const MainBarChart = () => {
   const dispatch = useDispatch()
 
@@ -28,8 +31,12 @@ const MainBarChart = () => {
   const chartData = {
     series: [
       {
-        name: "consumo",
-        data: data.map(cliente => Math.round(cliente.consumo / 1024 / 1024)).slice(0, 30)
+        name: "Consumo Mensual",
+        data: data.map(cliente => Math.round(cliente.consumo / 1024 / 1024 / 1024)).slice(0, 30),
+      },
+      {
+        name: "Quota restante",
+        data: data.map(cliente => quotaLimit - Math.round(cliente.consumo / 1024 / 1024 / 1024) > 0 ? quotaLimit - Math.round(cliente.consumo / 1024 / 1024 / 1024) : 0).slice(0, 30),
       }
     ],
     options: {
@@ -37,11 +44,11 @@ const MainBarChart = () => {
         id: "basic-bar",
         events: {
           dataPointSelection: (event, chartContext, config) => {
-            const arrayID = config.selectedDataPoints[0][0]
-            const cliente = chartContext.legend.legendHelpers.w.config.xaxis.categories[arrayID]
+            const cliente = chartContext.w.config.xaxis.categories[config.dataPointIndex]
             dispatch(setSelectedClient(cliente))
           }
-        }
+        },
+        stacked: true,
       },
       xaxis: {
         categories: data.map(cliente => cliente.cliente),
@@ -49,9 +56,30 @@ const MainBarChart = () => {
           style: {
               fontSize: '9px'
           },
-          rotate: -90
+          rotate: -90,
+          show: false
+        },
+      },
+      yaxis: {
+        lables: {
+          show: false
         }
       },
+      colors: [
+        function({ value, seriesIndex }) {
+          if (seriesIndex === 0) {
+            if (value >= quotaLimit) {
+              return '#ff0a2f'
+            } else if (value >= quotaLimit * 0.8) {
+              return '#ff950a'
+            } else {
+              return '#2450ff'
+            }
+          }
+
+          return '#d37aff'
+        }
+      ],
     },
   };
 
@@ -72,14 +100,16 @@ const MainBarChart = () => {
           ))}
         </Nav>
       </Navbar>
-      <Chart
-        type='bar'
-        height={500}
-        width='100%'
-        animations={{enabled: false}}
-        series={chartData.series}
-        options={chartData.options}
-      />
+      <Container fluid>
+        <Chart
+          type='bar'
+          height={500}
+          width='100%'
+          animations={{enabled: false}}
+          series={chartData.series}
+          options={chartData.options}
+        />
+      </Container>
     </Container>
   )
 }

@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 
 const Botonera = () => {
   return (
-    <Navbar bg='dark' variant='dark' expand='lg' style={{ paddingbottom: '15px'}}>
+    <Navbar bg='dark' variant='dark' expand='lg' style={{ padding: '15px 100px 15px 100px'}}>
       <Container fluid>
         <div style={{ marginLeft: '30px'}}>
           <Navbar.Brand href="/">Quota</Navbar.Brand>

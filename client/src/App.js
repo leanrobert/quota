@@ -16,12 +16,14 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Container>
+    <Container fluid style={{ padding: 0 }}>
       <Botonera />
-      <Routes>
-        <Route path='/clientes' element={<ClientDetails />} />
-        <Route path="/" element={<div><MainBarChart  /><ClientChart /></div>} />
-      </Routes>
+      <Container fluid style={{ padding: '0 50px 0 50px' }}>
+        <Routes>
+          <Route path='/clientes' element={<ClientDetails />} />
+          <Route path="/" element={<div><MainBarChart  /><ClientChart /></div>} />
+        </Routes>
+      </Container>
     </Container>
   )
 }
