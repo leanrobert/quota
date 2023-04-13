@@ -34,7 +34,7 @@ const App = () => {
           myFunction()
           const recurringTimer = setInterval(() => {
             myFunction()
-          }, 1 * 60 * 1000) //Every 5mins
+          }, 20 * 60 * 60 * 1000) //Every 24hours
           setTimerId(recurringTimer)
         }, timeUntilDesiredTime)
         setTimerId(timer)
@@ -42,7 +42,7 @@ const App = () => {
         myFunction()
         const recurringTimer = setInterval(() => {
           myFunction()
-        }, 1 * 60 * 1000)
+        }, 20 * 60 * 60 * 1000)
         setTimerId(recurringTimer)
       }
     }
