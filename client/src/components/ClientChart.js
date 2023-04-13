@@ -24,7 +24,7 @@ const ClientChart = () => {
   }
 
   return (
-    <CardGroup>
+    <CardGroup style={{ margin: '0 50px 0 50px'}}>
       <Card>
         <Card.Header>
           <h2><b>{selected.client.data.customer_data.code}</b> - {selected.client.data.customer_data.name} {selected.client.data.customer_data.lastname}</h2>
