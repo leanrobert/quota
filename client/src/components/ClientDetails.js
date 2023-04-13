@@ -14,8 +14,6 @@ const ClientDetails = () => {
   const dispatch = useDispatch()
   const selected = useSelector(({ selected }) => selected)
 
-  console.log(selected);
-
   const [startDate, setStartDate] = useState(new Date() - (60 * 60 * 24 * 1000))
   const [endDate, setEndDate] = useState(new Date())
   const [client, setClient] = useState('')
