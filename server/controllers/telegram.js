@@ -2,8 +2,8 @@ const TelegramBot = require('node-telegram-bot-api')
 const axios = require('axios')
 require('dotenv').config()
 
-const apiToken = process.env.BOT_TELEGRAM_TOKEN
-const groupId = process.env.TELEGRAM_GROUP_ID
+const apiToken = '5902602101:AAEPUTgJskBDja0sAMYzHhupwWPH_COXSrM'
+const groupId = '-924275007'
 
 const bot = new TelegramBot(apiToken)
 
@@ -22,11 +22,11 @@ const sendMessage = async () => {
   if(data.length > 0) {
     data.map(element => {
       if(element.consumo / 1024 / 1024 / 1024 > 200) {
-        messageC += `${element.cliente.trim()} <b>${element.consumo / 1024 / 1024 / 1024}GB</b>\n`
+        messageC += `${element.cliente.trim()} <b>${Math.floor(element.consumo / 1024 / 1024 / 1024)}GB</b>\n`
       } else if(element.consumo / 1024 / 1024 / 1024 > 150) {
-        messageW += `${element.cliente.trim()} <b>${element.consumo / 1024 / 1024 / 1024}GB</b>\n`
+        messageW += `${element.cliente.trim()} <b>${Math.floor(element.consumo / 1024 / 1024 / 1024)}GB</b>\n`
       } else if(element.consumo / 1024 / 1024 / 1024 > 100){
-        messageN += `${element.cliente.trim()} <b>${element.consumo / 1024 / 1024 / 1024}GB</b>\n`
+        messageN += `${element.cliente.trim()} <b>${Math.floor(element.consumo / 1024 / 1024 / 1024)}GB</b>\n`
       }
     })
     bot.sendMessage(groupId, messageC + '\n' + messageW + '\n' + messageN, { parse_mode: 'HTML' })

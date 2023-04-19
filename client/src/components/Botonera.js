@@ -3,8 +3,16 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import logo from '../assets/images/favicon.png'
+import { useDispatch } from 'react-redux'
+import { logoutUser } from '../reducers/loginReducer'
 
 const Botonera = () => {
+  const dispatch = useDispatch()
+
+  const logout = () => {
+    dispatch(logoutUser())
+  }
+
   return (
     <Navbar bg='dark' variant='dark' expand='lg' style={{ padding: '15px 100px 15px 100px'}}>
       <Container fluid>
@@ -18,6 +26,7 @@ const Botonera = () => {
           <Navbar.Collapse>
             <Nav className="me-auto">
               <Nav.Link href="/clientes">Clientes</Nav.Link>
+              <Nav.Link href="/logout" onClick={logout}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>
