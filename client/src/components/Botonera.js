@@ -26,7 +26,7 @@ const Botonera = () => {
           <Navbar.Collapse>
             <Nav className="me-auto">
               <Nav.Link href="/clientes">Clientes</Nav.Link>
-              <Nav.Link href="/logout" onClick={logout}>Logout</Nav.Link>
+              <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>
