@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container'
 import logo from '../assets/images/favicon.png'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../reducers/loginReducer'
+import { Link } from 'react-router-dom'
 
 const Botonera = () => {
   const dispatch = useDispatch()
@@ -25,8 +26,8 @@ const Botonera = () => {
         <div style={{ marginRight: '30px'}}>
           <Navbar.Collapse>
             <Nav className="me-auto">
-              <Nav.Link href="/clientes">Clientes</Nav.Link>
-              <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
+              <Link to="/clientes" style={{ color: 'lightgray', textDecoration: 'none', marginRight: '8px' }}>Clientes</Link>
+              <Link href="/" onClick={logout} style={{ color: 'lightgray', textDecoration: 'none', marginRight: '8px' }}>Logout</Link>
             </Nav>
           </Navbar.Collapse>
         </div>
