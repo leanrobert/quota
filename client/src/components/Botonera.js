@@ -1,7 +1,5 @@
-import React from 'react'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import logo from '../assets/images/favicon.png'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../reducers/loginReducer'
@@ -12,6 +10,12 @@ const Botonera = () => {
 
   const logout = () => {
     dispatch(logoutUser())
+  }
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClick = () => {
+    setIsOpen(!isOpen)
   }
 
   return (
@@ -26,8 +30,8 @@ const Botonera = () => {
         <div style={{ marginRight: '30px'}}>
           <Navbar.Collapse>
             <Nav className="me-auto">
-              <Link to="/clientes" style={{ color: 'lightgray', textDecoration: 'none', marginRight: '8px' }}>Clientes</Link>
-              <Link href="/" onClick={logout} style={{ color: 'lightgray', textDecoration: 'none', marginRight: '8px' }}>Logout</Link>
+              <Nav.Link href="/clientes">Clientes</Nav.Link>
+              <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>

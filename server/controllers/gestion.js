@@ -28,18 +28,12 @@ const generateToken = async () => {
       date: new Date()
     }
   } catch(error) {
-    console.log({ error: 'Problem with token'})
+    console.log({ error: 'Problem with token' })
   }
 }
 
 gestionRouter.get('/client/:client', async (req, res) => {
-  const now = new Date()
-
   if(token === null) {
-    token = await generateToken()
-  }
-
-  if ((now - token.date) / (1000 * 60 * 60) >= 24) {
     token = await generateToken()
   }
 
@@ -59,7 +53,8 @@ gestionRouter.get('/client/:client', async (req, res) => {
     const response = await axios(config)
     res.json(response.data)
   } catch (error) {
-    res.status(400).json({ error: error.message})
+    token = await generateToken()
+    res.status(400).json({ error: 'No se pudo obtener datos ' + error.message })
   }
 })
 

@@ -6,13 +6,13 @@ const clientsSlice = createSlice({
   name: 'user',
   initialState: {},
   reducers: {
-    setUser(state, action) {
+    setUser (state, action) {
       return action.payload
     },
-    logout(state, action) {
+    logout (state, action) {
       return null
     },
-    loginError(state, action) {
+    loginError (state, action) {
       return { errorMessage: action.payload }
     }
   }

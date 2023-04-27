@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/esm/Button'
-import Container from 'react-bootstrap/esm/Container'
-import Alert from 'react-bootstrap/Alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { logIn } from '../reducers/loginReducer'
 import logo from '../assets/images/favicon.png'
+import Layout from './Layout'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -21,30 +18,31 @@ const Login = () => {
   }
 
   return (
-    <Container>
-      <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, marginTop: '100px' }}>
-        <img alt="quota" src={logo} width="100" height="100" className="d-inline-block align-top" />
-        <h1>Quota</h1>
-        {errorMessage && <Alert variant='danger' key='danger'>{errorMessage}</Alert>}
-      </Container>
+    <Layout>
+      <div className='flex flex-col items-center justify-center gap-3'>
+        <img alt='quota' src={logo} className='w-[6%] h-[6%] hidden md:block' />
+        <h1 className='mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl'>
+          <span className='text-transparent bg-clip-text bg-gradient-to-br to-sky-300 from-blue-700'>Quota</span>
+        </h1>
+        {errorMessage && <div className='bg-red-300 text-red-800 rounded-full py-2 px-4 mb-4'>{errorMessage}</div>}
+      </div>
 
-      <Form
-        style={{ padding: '20px 400px', display: 'flex', flexDirection: 'column' }}
-        onSubmit={handleSubmit}
-      >
-        <Form.Group controlId="formUser">
-          <Form.Label>Username</Form.Label>
-          <Form.Control placeholder="Enter username" value={user} onChange={e => setUser(e.target.value)} />
-        </Form.Group>
-        <Form.Group controlId="formPass" style={{ marginTop: '20px' }}>
-          <Form.Label>Password</Form.Label>
-          <Form.Control type='password' placeholder="Enter password" value={pass} onChange={e => setPass(e.target.value)} />
-        </Form.Group>
-        <Button variant='primary' type='submit' style={{ marginTop: '20px' }}>
-          Log In
-        </Button>
-      </Form>
-    </Container>
+      <form onSubmit={handleSubmit}>
+        <div className='w-full mx-auto md:w-3/4 lg:w-1/2'>
+          <div className='mb-6'>
+            <label htmlFor='user' className='block mb-2 text-sm font-medium text-gray-900'>Username</label>
+            <input type='text' required id='user' placeholder='Enter username' value={user} onChange={e => setUser(e.target.value)} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5' />
+          </div>
+          <div id='formPass' className='py-2'>
+            <label htmlFor='password'>Password</label>
+            <input type='password' required id='password' placeholder='Enter password' value={pass} onChange={e => setPass(e.target.value)} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5' />
+          </div>
+          <button type='submit' className='mx-auto block text-white bg-gradient-to-r from-blue-700 via-blue-500 to-sky-300 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>
+            Log In
+          </button>
+        </div>
+      </form>
+    </Layout>
   )
 }
 

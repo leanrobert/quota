@@ -5,7 +5,7 @@ const selectedSlice = createSlice({
   name: 'selected',
   initialState: null,
   reducers: {
-    setSelected(state, action) {
+    setSelected (state, action) {
       return action.payload
     }
   }

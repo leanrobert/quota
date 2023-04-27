@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     clients: clientsReducer,
     selected: selectedReducer,
-    user: loginReducer,
+    user: loginReducer
   }
 })
 

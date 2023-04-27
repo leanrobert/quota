@@ -5,7 +5,7 @@ const clientsSlice = createSlice({
   name: 'clients',
   initialState: [],
   reducers: {
-    setClients(state, action) {
+    setClients (state, action) {
       return action.payload
     }
   }
