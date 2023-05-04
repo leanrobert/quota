@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../assets/images/favicon.png'
 import { useDispatch } from 'react-redux'
+
 import { logoutUser } from '../reducers/loginReducer'
+
+import logo from '../assets/images/favicon.png'
 
 const Botonera = () => {
   const dispatch = useDispatch()
@@ -28,7 +30,7 @@ const Botonera = () => {
         </nav>
         <nav className='hidden md:block'>
           <Link to='/dashboards' className='mr-4 relative group hover:text-gray-300'>Dashboards</Link>
-          <Link to='/clientes' className='mr-4 relative group hover:text-gray-300'>Clientes</Link>
+          <Link to='/customers' className='mr-4 relative group hover:text-gray-300'>Clientes</Link>
           <Link to='/' className='mr-4 relative group hover:text-gray-300' onClick={logout}>Logout</Link>
         </nav>
       </div>
@@ -44,7 +46,7 @@ const Botonera = () => {
           <div className='min-w-[70vw] flex flex-col z-20 justify-between items-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800/75 rounded-lg backdrop-blur-md py-32' initial={{ scale: 0, opacity: 0, x: '-50%', y: '-50%' }} animate={{ scale: 1, opacity: 1 }}>
             <nav className='flex items-center flex-col justify-center'>
               <Link to='/dashboards' className='relative group text-white my-2 hover:underline' onClick={handleClick}>Dashboards</Link>
-              <Link to='/clientes' className='relative group text-white my-2 hover:underline' onClick={handleClick}>Clientes</Link>
+              <Link to='/customers' className='relative group text-white my-2 hover:underline' onClick={handleClick}>Clientes</Link>
               <Link to='/' className='relative group text-white my-2 hover:underline' onClick={logout}>Logout</Link>
             </nav>
           </div>

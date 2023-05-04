@@ -9,10 +9,17 @@ const clientData = {
   port: process.env.DB_PORT,
 }
 
-const defineMonthDates = () => {
+const defineMonthDates = (monthName = null) => {
   const today = new Date()
   const year = today.getFullYear()
-  const month = today.getMonth() + 1
+  let month
+
+  if (monthName) {
+    month = new Date(`${monthName} 1, ${year}`).getMonth() + 1
+  } else {
+    month = today.getMonth() + 1
+  }
+
   const firstDayOfMonth = new Date(year, month - 1, 1);
   const lastDayOfMonth = new Date(year, month, 0);
 
@@ -26,7 +33,8 @@ const defineMonthDates = () => {
 
 dbRouter.get('/', async (req, res) => {
   const client = new Client(clientData)
-  const { start, end } = defineMonthDates()
+  const monthName = req.query.month || ''
+  const { start, end } = defineMonthDates(monthName)
 
   try {
     await client.connect();
@@ -37,7 +45,7 @@ dbRouter.get('/', async (req, res) => {
         SUM(g.download_sum) AS Consumo
       FROM
         (SELECT itemid, name, status, hostid FROM items WHERE key_ LIKE 'onu.br%') i
-        JOIN history_uint_aggregate g ON i.itemid = g.itemid
+        JOIN history_test g ON i.itemid = g.itemid
         JOIN hosts h ON i.hostid = h.hostid
       WHERE
         i.status = 0
@@ -47,9 +55,52 @@ dbRouter.get('/', async (req, res) => {
         AND i.name NOT LIKE '%UEN%'
         AND i.name NOT LIKE '%BIGWAY%'
         AND i.name NOT LIKE '%OPTIX%'
-        AND g.date_sum >= '${start}' AND g.date_sum <= '${end}'
+        AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
+        AND i.name NOT LIKE '%87574%'
       GROUP BY Cliente
       ORDER BY Consumo DESC
+      LIMIT 50
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error querying database ' + err });
+  } finally {
+    await client.end();
+  }
+})
+
+dbRouter.get('/:olt', async (req, res) => {
+  const olt = req.params.olt
+  const client = new Client(clientData)
+  const monthName = req.query.month || null
+  const { start, end } = defineMonthDates(monthName)
+
+  try {
+    await client.connect();
+
+    const result = await client.query(`
+      SELECT
+        REPLACE(SPLIT_PART(SPLIT_PART(i.name, 'ONU Bits received', 2), '_zone', 1), '_', ' ') AS Cliente,
+        SUM(g.download_sum) AS consumo
+      FROM
+        (SELECT itemid, name, status, hostid FROM items WHERE key_ LIKE 'onu.br%') i
+        JOIN history_test g ON i.itemid = g.itemid
+        JOIN hosts h ON i.hostid = h.hostid
+      WHERE
+        i.status = 0
+        AND h.hostid = ${olt}
+        AND i.name LIKE '%ONU Bits received%'
+        AND i.name NOT LIKE '%Nodo%'
+        AND i.name NOT LIKE '%NODO%'
+        AND i.name NOT LIKE '%UEN%'
+        AND i.name NOT LIKE '%BIGWAY%'
+        AND i.name NOT LIKE '%OPTIX%'
+        AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
+        AND i.name NOT LIKE '%87574%'
+      GROUP BY Cliente
+      ORDER BY consumo DESC
       LIMIT 50
     `);
 
@@ -62,10 +113,11 @@ dbRouter.get('/', async (req, res) => {
   }
 })
 
-dbRouter.get('/:olt', async (req, res) => {
-  const olt = req.params.olt
+dbRouter.get('/client/:id', async (req, res) => {
+  const user = req.params.id
   const client = new Client(clientData)
-  const { start, end } = defineMonthDates()
+  const monthName = req.query.month || ''
+  const { start, end } = defineMonthDates(monthName)
 
   try {
     await client.connect();
@@ -73,30 +125,30 @@ dbRouter.get('/:olt', async (req, res) => {
     const result = await client.query(`
       SELECT
         REPLACE(SPLIT_PART(SPLIT_PART(i.name, 'ONU Bits received', 2), '_zone', 1), '_', ' ') AS Cliente,
-        SUM(g.download_sum) AS consumo
+        SUM(g.download_sum) AS Consumo
       FROM
         (SELECT itemid, name, status, hostid FROM items WHERE key_ LIKE 'onu.br%') i
-        JOIN history_uint_aggregate g ON i.itemid = g.itemid
+        JOIN history_test g ON i.itemid = g.itemid
         JOIN hosts h ON i.hostid = h.hostid
       WHERE
         i.status = 0
-        AND h.hostid = ${olt}
         AND i.name LIKE '%ONU Bits received%'
         AND i.name NOT LIKE '%Nodo%'
         AND i.name NOT LIKE '%NODO%'
         AND i.name NOT LIKE '%UEN%'
         AND i.name NOT LIKE '%BIGWAY%'
         AND i.name NOT LIKE '%OPTIX%'
-        AND g.date_sum >= '${start}' AND g.date_sum <= '${end}'
+        AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
+        AND i.name LIKE '%${user}%'
       GROUP BY Cliente
-      ORDER BY consumo DESC
+      ORDER BY Consumo DESC
       LIMIT 50
     `);
 
     res.status(200).json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error querying database' });
+    res.status(500).json({ error: 'Error querying database ' + err });
   } finally {
     await client.end();
   }

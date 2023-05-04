@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import { Link } from 'react-router-dom'
+
 import 'react-datepicker/dist/react-datepicker.css'
+
 import { setSelectedClient } from '../reducers/selectedReducer'
-import Layout from './Layout'
+
+import Layout from '../components/Layout'
 
 const ClientDetails = () => {
   const dispatch = useDispatch()
   const selected = useSelector(({ selected }) => selected)
 
-  const [startDate, setStartDate] = useState(new Date() - (60 * 60 * 24 * 1000))
   const [endDate, setEndDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(new Date(new Date() - (24 * 60 * 60 * 1000)))
   const [client, setClient] = useState('')
 
   const handleDates = dates => {
@@ -44,13 +47,13 @@ const ClientDetails = () => {
 
       {selected
         ? (
-            selected.client.error !== 'true'
+            selected.client.ges.error !== 'true'
               ? (
                 <>
                   <div className='flex justify-between items-end'>
                     <div>
                       <h2 className='font-bold text-medium text-center md:text-left md:text-xl lg:text-2xl'>
-                        {selected.client.data.customer_data.code} - {selected.client.data.customer_data.name} {selected.client.data.customer_data.lastname}
+                        {selected.client.ges.data.customer_data.code} - {selected.client.ges.data.customer_data.name} {selected.client.ges.data.customer_data.lastname}
                       </h2>
                     </div>
                     <div className='flex flex-col gap-y-2 items-center text-center md:flex-row'>
@@ -69,17 +72,41 @@ const ClientDetails = () => {
                     </div>
                   </div>
 
-                  <div className='w-full h-auto my-4 border rounded-lg'>
-                    <div className='bg-sky-200 py-2 rounded-t-md w-full mb-3 px-4'>
-                      <h2>Quota de cliente en tiempo filtrado</h2>
+                  <div className='w-full h-auto my-4 flex flex-col gap-4 lg:flex-row'>
+                    <div className='w-full h-auto my-4 border rounded-lg'>
+                      <div className='bg-sky-200 py-2 rounded-t-md w-full mb-3 px-4'>
+                        <h2>Quota de cliente en tiempo filtrado</h2>
+                      </div>
+                      <div className='flex items-center justify-center'>
+                        <iframe
+                          src={`http://172.16.17.254/d-solo/nLVnJh24k/dashboard-clientes?orgId=1&var-cliente=${selected.nombre.trim().split(' ').join('+')}&from=${Date.parse(startDate)}&to=${Date.parse(endDate)}&panelId=22`}
+                          width='450'
+                          height='200'
+                          title='Client quota'
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <iframe
-                        src={`http://172.16.17.254/d-solo/nLVnJh24k/dashboard-clientes?orgId=1&var-cliente=${selected.nombre.trim().split(' ').join('+')}&from=${Date.parse(startDate)}&to=${Date.parse(endDate)}&kiosk=&panelId=18`}
-                        width='100%'
-                        height='200px'
-                        title='Client quota'
-                      />
+
+                    <div className='w-full h-auto my-4 border rounded-lg'>
+                      <div className='bg-sky-200 py-2 rounded-t-md w-full px-4'>
+                        <h2>Detalles de la conexión</h2>
+                      </div>
+                      <div className='flex flex-col items-start justify-between'>
+                        <div className='border w-full p-2 px-4'><u>Ip:</u> {selected.client.ges.data.connection_data.connection.ip}</div>
+                        <div className='border w-full p-2 px-4 bg-sky-100'><u>Nodo:</u> {selected.client.ges.data.connection_data.connection.node}</div>
+                        <div className='border w-full p-2 px-4'><u>Plan:</u> {selected.client.ges.data.connection_data.connection.plan}</div>
+                      </div>
+                    </div>
+
+                    <div className='w-full h-auto my-4 border rounded-lg'>
+                      <div className='bg-sky-200 py-2 rounded-t-md w-full px-4'>
+                        <h2>Detalles del cliente</h2>
+                      </div>
+                      <div className='flex flex-col items-start justify-between'>
+                        <div className='border w-full p-2 px-4'><u>Dirección:</u> {selected.client.ges.data.customer_data.address}</div>
+                        <div className='border w-full p-2 px-4 bg-sky-100'><u>Email:</u> {selected.client.ges.data.customer_data.email}</div>
+                        <div className='border w-full p-2 px-4'><u>Teléfono:</u> {selected.client.ges.data.connection_data.connection.phone_mobile}</div>
+                      </div>
                     </div>
                   </div>
 
@@ -97,27 +124,6 @@ const ClientDetails = () => {
                     </div>
                   </div>
 
-                  <div className='w-full h-auto my-4 border rounded-lg'>
-                    <div className='bg-sky-200 py-2 rounded-t-md w-full px-4'>
-                      <h2>Detalles de la conexión</h2>
-                    </div>
-                    <div className='flex flex-col items-start justify-between'>
-                      <div className='border w-full p-2 px-4'><u>Ip:</u> {selected.client.data.connection_data.connection.ip}</div>
-                      <div className='border w-full p-2 px-4 bg-sky-100'><u>Nodo:</u> {selected.client.data.connection_data.connection.node}</div>
-                      <div className='border w-full p-2 px-4'><u>Plan:</u> {selected.client.data.connection_data.connection.plan}</div>
-                    </div>
-                  </div>
-
-                  <div className='w-full h-auto my-4 border rounded-lg'>
-                    <div className='bg-sky-200 py-2 rounded-t-md w-full px-4'>
-                      <h2>Detalles del cliente</h2>
-                    </div>
-                    <div className='flex flex-col items-start justify-between'>
-                      <div className='border w-full p-2 px-4'><u>Dirección:</u> {selected.client.data.customer_data.address}</div>
-                      <div className='border w-full p-2 px-4 bg-sky-100'><u>Email:</u> {selected.client.data.customer_data.email}</div>
-                      <div className='border w-full p-2 px-4'><u>Teléfono:</u> {selected.client.data.connection_data.connection.phone_mobile}</div>
-                    </div>
-                  </div>
                 </>
                 )
               : (

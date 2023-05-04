@@ -20,9 +20,16 @@ export const initializeClients = () => {
   }
 }
 
-export const selectNode = olt => {
+export const selectNode = (olt) => {
   return async dispatch => {
     const clients = await getOLT(olt)
+    dispatch(setClients(clients))
+  }
+}
+
+export const filterDashboard = (olt = 1, month = '') => {
+  return async dispatch => {
+    const clients = await getOLT(olt, month)
     dispatch(setClients(clients))
   }
 }

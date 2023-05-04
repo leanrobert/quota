@@ -1,7 +1,8 @@
 import React from 'react'
-import Layout from './Layout'
-import MainBarChart from './MainBarChart'
-import ClientChart from './ClientChart'
+
+import Layout from '../components/Layout'
+import MainBarChart from '../components/MainBarChart'
+import ClientChart from '../components/ClientChart'
 
 const WelcomePage = () => {
   return (

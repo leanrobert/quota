@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { logIn } from '../reducers/loginReducer'
+
+import Layout from '../components/Layout'
+
 import logo from '../assets/images/favicon.png'
-import Layout from './Layout'
 
 const Login = () => {
   const dispatch = useDispatch()

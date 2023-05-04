@@ -1,13 +1,11 @@
 import axios from 'axios'
 const baseUrl = '/api/clients'
 
-const getOLT = async olt => {
+const getOLT = async (olt, month = '') => {
   if (olt === 1) {
-    const res = await axios.get(`${baseUrl}`)
-    return res.data
+    return (await axios.get(`${baseUrl}?month=${month}`)).data
   } else {
-    const res = await axios.get(`${baseUrl}/${olt}`)
-    return res.data
+    return (await axios.get(`${baseUrl}/${olt}?month=${month}`)).data
   }
 }
 
