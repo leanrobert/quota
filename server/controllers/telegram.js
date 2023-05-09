@@ -7,7 +7,7 @@ const groupId = '-924275007'
 
 const bot = new TelegramBot(apiToken)
 
-const quotaLimit = 5120
+const quotaLimit = 2048
 
 const getData = async () => {
   const data = await axios.get('http://localhost/api/clients')

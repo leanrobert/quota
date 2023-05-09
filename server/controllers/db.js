@@ -57,6 +57,7 @@ dbRouter.get('/', async (req, res) => {
         AND i.name NOT LIKE '%OPTIX%'
         AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
         AND i.name NOT LIKE '%87574%'
+        AND i.name NOT LIKE '%NO%DESCRIPTION%'
       GROUP BY Cliente
       ORDER BY Consumo DESC
       LIMIT 50
@@ -99,6 +100,7 @@ dbRouter.get('/:olt', async (req, res) => {
         AND i.name NOT LIKE '%OPTIX%'
         AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
         AND i.name NOT LIKE '%87574%'
+        AND i.name NOT LIKE '%NO%DESCRIPTION%'
       GROUP BY Cliente
       ORDER BY consumo DESC
       LIMIT 50
@@ -140,6 +142,7 @@ dbRouter.get('/client/:id', async (req, res) => {
         AND i.name NOT LIKE '%OPTIX%'
         AND g.date_sum >= '${start} 00:00:00.00' AND g.date_sum <= '${end} 23:59:59'
         AND i.name LIKE '%${user}%'
+        AND i.name NOT LIKE '%NO%DESCRIPTION%'
       GROUP BY Cliente
       ORDER BY Consumo DESC
       LIMIT 50

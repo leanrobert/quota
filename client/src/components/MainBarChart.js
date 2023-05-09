@@ -6,7 +6,7 @@ import { setSelectedClient } from '../reducers/selectedReducer'
 
 import OLTFilterButton from './OLTFilterButton'
 
-const quotaLimit = 5120
+const quotaLimit = 2048
 
 const MainBarChart = () => {
   const dispatch = useDispatch()
@@ -62,7 +62,7 @@ const MainBarChart = () => {
           if (seriesIndex === 0) {
             if (value >= quotaLimit) {
               return '#ff0a2f'
-            } else if (value >= quotaLimit * 0.8) {
+            } else if (value >= quotaLimit * 0.75) {
               return '#ff950a'
             } else {
               return '#2450ff'

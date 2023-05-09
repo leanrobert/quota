@@ -15,7 +15,8 @@ const OLTFilterButton = () => {
     { olt: 'Flavimari', id: 17437 },
     { olt: 'Castrol', id: 22973 },
     { olt: 'Beltran', id: 22972 },
-    { olt: 'Cano', id: 22971 }
+    { olt: 'Cano', id: 22971 },
+    { olt: 'Colonia Bombal', id: 22984 }
   ]
 
   const dispatch = useDispatch()
